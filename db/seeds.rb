@@ -17,14 +17,14 @@ standard = User.new(
 standard.skip_confirmation!
 standard.save!
 
-# premium = User.new(
-#   username:   'Premium User',
-#   email:      'premium@example.com',
-#   password:   'helloworld'
-#   role:       'premium'
-# )
-# premium.skip_confirmation!
-# premium.save!
+premium = User.new(
+  username:   'Premium User',
+  email:      'premium@example.com',
+  password:   'helloworld'
+  role:       'premium'
+)
+premium.skip_confirmation!
+premium.save!
 
 10.times do
   user = User.new(
@@ -36,10 +36,13 @@ standard.save!
   user.save!
 end
 
+users = User.all
+
 100.times do
   Wiki.create!(
-  title: Faker::Lorem.sentence,
-  body: Faker::Lorem.paragraph
+    user: users.sample,
+    title: Faker::Lorem.sentence,
+    body: Faker::Lorem.paragraph
   )
 end
 

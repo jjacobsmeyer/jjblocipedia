@@ -14,4 +14,19 @@ class User < ActiveRecord::Base
     role == 'admin'
   end
 
+  def premium?
+    role == 'premium'
+  end
+
+  def make_premium!
+    self.role = 'premium'
+    save!
+  end
+
+  def make_standard
+    self.role = 'standard'
+    save
+  end
+
+
 end
