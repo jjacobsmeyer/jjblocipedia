@@ -1,4 +1,5 @@
 class User < ActiveRecord::Base
+  has_many :wikis
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
@@ -25,7 +26,11 @@ class User < ActiveRecord::Base
 
   def make_standard
     self.role = 'standard'
-    save
+
+    transaction do
+      wikis.update_all(private: false)
+      save!
+    end
   end
 
 

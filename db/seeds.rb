@@ -20,7 +20,7 @@ standard.save!
 premium = User.new(
   username:   'Premium User',
   email:      'premium@example.com',
-  password:   'helloworld'
+  password:   'helloworld',
   role:       'premium'
 )
 premium.skip_confirmation!
@@ -39,10 +39,12 @@ end
 users = User.all
 
 100.times do
+  user = users.sample 
   Wiki.create!(
-    user: users.sample,
+    user: user,
     title: Faker::Lorem.sentence,
-    body: Faker::Lorem.paragraph
+    body: Faker::Lorem.paragraph,
+    private: user.premium? ? [true, false][rand(1)] : false
   )
 end
 
