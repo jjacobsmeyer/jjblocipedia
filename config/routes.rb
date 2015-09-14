@@ -8,4 +8,11 @@ Rails.application.routes.draw do
     end
   end
   root to: 'welcome#index'
+
+  resources :collaborators, only: [:create, :destroy] do
+    collection do
+      delete "destroy", as: "destroy"
+    end
+  end
+
 end

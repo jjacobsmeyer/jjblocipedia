@@ -7,6 +7,16 @@ class User < ActiveRecord::Base
 
   after_initialize :init
 
+  def self.available_users(wiki)
+    all.reject { |u| u == wiki.user }
+  end
+
+  # def self.collab_users(wiki)
+  #   @wiki.collaborators
+  # end
+
+
+
   def init
     self.role ||= 'standard'
   end

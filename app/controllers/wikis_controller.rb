@@ -1,5 +1,6 @@
 class WikisController < ApplicationController
   def index
+    #@wikis = policy_scope(Wiki)
     @wikis = policy_scope(Wiki).paginate(page: params[:page], per_page: 20)
     authorize @wikis
   end
@@ -16,7 +17,7 @@ class WikisController < ApplicationController
 
   def create
     @wiki = Wiki.new(params.require(:wiki).permit(:title, :private, :user_id, :body))
-    @wiki.user = current_user 
+    @wiki.user = current_user
     authorize @wiki
     if @wiki.save
       flash[:notice] = "Wiki was saved."
@@ -29,6 +30,8 @@ class WikisController < ApplicationController
 
   def edit
     @wiki = Wiki.find(params[:id])
+    @available_users = User.available_users(@wiki)
+    @collaborators = @wiki.collaborators 
   end
 
   def update

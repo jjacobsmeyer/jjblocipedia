@@ -1,5 +1,6 @@
 class Wiki < ActiveRecord::Base
   belongs_to :user
+  has_many :collaborators 
 
   #scope :visible_to, -> (user) { premium ? publicly_viewable && privately_viewable : publicly_viewable }
   # scope :visible_to, -> (user) { user ? all : privately_viewable }
