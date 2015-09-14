@@ -1,10 +1,21 @@
 class User < ActiveRecord::Base
+  has_many :wikis
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable, :confirmable
 
   after_initialize :init
+
+  def self.available_users(wiki)
+    all.reject { |u| u == wiki.user }
+  end
+
+  # def self.collab_users(wiki)
+  #   @wiki.collaborators
+  # end
+
+
 
   def init
     self.role ||= 'standard'
@@ -13,5 +24,24 @@ class User < ActiveRecord::Base
   def admin?
     role == 'admin'
   end
+
+  def premium?
+    role == 'premium'
+  end
+
+  def make_premium!
+    self.role = 'premium'
+    save!
+  end
+
+  def make_standard
+    self.role = 'standard'
+
+    transaction do
+      wikis.update_all(private: false)
+      save!
+    end
+  end
+
 
 end

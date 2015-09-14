@@ -7,14 +7,20 @@
   <%= csrf_meta_tags %>
 </head>
 <body>
-  <div class="pull-right user-info">
-    <% if current_user %>
-      Hello <%= current_user.email %>! <%= link_to "Sign out", destroy_user_session_path, method: :delete %>
-    <% else %>
-      <%= link_to "Sign In", new_user_session_path %> or
-      <%= link_to "Sign Up", new_user_session_path %>
-    <% end %>
-  </div>
+  <div class="container">
+    <ul class="nav nav-tabs">
+      <li><%= link_to "Blocipedia", root_path %></li>
+      <li><%= link_to "Wikis", wikis_path %></li>
+
+    <div class="pull-right user-info">
+      <% if current_user %>
+        Hello <%= link_to current_user.email, edit_user_registration_path %>! <%= link_to "Sign out", destroy_user_session_path, method: :delete %>
+      <% else %>
+        <%= link_to "Sign In", new_user_session_path %> or
+        <%= link_to "Sign Up", new_user_session_path %>
+      <% end %>
+    </div>
+  </ul>
 
   <% if flash[:notice] %>
     <div class="alert alert-success">
@@ -34,6 +40,8 @@
   <% end %>
 
 <%= yield %>
+</div>
+
 
 </body>
 </html>

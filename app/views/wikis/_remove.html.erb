@@ -1,0 +1,8 @@
+<%= form_tag destroy_collaborators_path, method: :delete do |f| %>
+  <div class="form-group">
+    <%= select_tag :id, options_from_collection_for_select(@wiki.collaborators, :id, :user_email) %>
+    <% if policy(@wiki).destroy? %>
+      <%= submit_tag "Delete Collaborator", class: 'btn btn-danger' %>
+    <% end %>
+  </div>
+<% end %>
